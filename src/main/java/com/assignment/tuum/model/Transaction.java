@@ -2,10 +2,8 @@ package com.assignment.tuum.model;
 
 import com.assignment.tuum.model.enums.Currency;
 import com.assignment.tuum.model.enums.Direction;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -13,15 +11,17 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Data
+@Getter
+@Setter
 @Table(name = "transaction")
 public class Transaction {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "account_id", referencedColumnName = "id")
     private Account account;
 
     @Column(name = "currency",length = 10,nullable = false)
@@ -37,4 +37,7 @@ public class Transaction {
 
     @Column(name = "description")
     private String description;
+
+    @Column(name = "balance_after_transaction")
+    private Long balanceAfterTransaction;
 }

@@ -4,16 +4,16 @@ import com.assignment.tuum.model.enums.Currency;
 import com.assignment.tuum.model.enums.Direction;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 @Data
 @NoArgsConstructor
-public class TransactionDto {
+@SuperBuilder(toBuilder=true)
+public class TransactionCreateDto {
 
-    private Long id;
     private Long account_id;
     private Currency currency;
     private long amount;
     private Direction direction;
     private String description;
-    private Long balanceAfterTransaction;
 }

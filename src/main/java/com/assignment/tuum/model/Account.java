@@ -2,46 +2,36 @@ package com.assignment.tuum.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jdk.dynalink.linker.LinkerServices;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.print.DocFlavor;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 @Builder
-@Data
 @Table(name = "account")
 public class Account {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "customer_id",length = 30, unique = true, nullable = false)
     private String customerId;
 
-    @Column(name = "Country", length = 60 ,nullable = false)
-    @JsonIgnore
-    private char[] country;
+    @Column(name = "country", length = 60 ,nullable = false)
+    private String country;
 
-    private String check;
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL) //means this will be mapped by an object 'account' available in Balance class
+    private List<Balance> balances ;
 
-//    @OneToMany(mappedBy = "account") //means this will be mapped by an object 'account' available in Balance class
-//    private List<Balance> balance;
-
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "account_id",referencedColumnName = "id")
-    private List<Balance> balance;
-
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "account_id",referencedColumnName = "id")
-    @JsonIgnore
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     private List<Transaction> transactions;
 
 }

@@ -10,6 +10,5 @@ import lombok.NoArgsConstructor;
 public class BalanceDto {
 
     private Currency currency;
-    private Long balance;
-    private Account account;
+    private Long availableBalance;
 }

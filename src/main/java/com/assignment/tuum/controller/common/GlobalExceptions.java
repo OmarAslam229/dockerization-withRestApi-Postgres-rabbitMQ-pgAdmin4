@@ -1,7 +1,9 @@
 package com.assignment.tuum.controller.common;
 
+import com.assignment.tuum.exceptions.IllegalOperations;
 import com.assignment.tuum.exceptions.UserNotFoundException;
 import com.assignment.tuum.model.enums.Currency;
+import com.assignment.tuum.model.enums.Direction;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,7 +41,17 @@ public class GlobalExceptions {
             error = "Invalid Country ";
         if (incomingError.contains("Currency"))
             error += "Invalid Currency : Allowed Currencies are -> " + EnumSet.allOf(Currency.class);
+        if (incomingError.contains("Direction"))
+            error += "Invalid Direction : Allowed Directions are -> " + EnumSet.allOf(Direction.class);
 
+        return new ResponseEntity(error, new HttpHeaders(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(IllegalOperations.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<Map<String, List<String>>> handleIllegalOperationsErrors(IllegalOperations ex) {
+
+        String error = ex.getMessage();
         return new ResponseEntity(error, new HttpHeaders(), HttpStatus.BAD_REQUEST);
     }
 

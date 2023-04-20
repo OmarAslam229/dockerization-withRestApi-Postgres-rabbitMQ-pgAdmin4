@@ -1,5 +1,6 @@
 package com.assignment.tuum.mapper.common;
 
+import com.assignment.tuum.dtos.TransactionListDto;
 import org.mapstruct.*;
 
 import java.util.List;
@@ -14,6 +15,7 @@ public interface EntityMapper<E, D> {
 
     @IterableMapping(nullValueMappingStrategy = NullValueMappingStrategy.RETURN_DEFAULT)
     List<D> toDtos(List<E> entityList);
+
 
     @Named("partialUpdate")
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)

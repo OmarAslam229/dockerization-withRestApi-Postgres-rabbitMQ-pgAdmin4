@@ -2,10 +2,7 @@ package com.assignment.tuum.model;
 
 import com.assignment.tuum.model.enums.Currency;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -13,12 +10,13 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Data
+@Getter
+@Setter
 @Table(name = "balance")
 public class Balance {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonIgnore
     private Long id;
 
@@ -27,15 +25,10 @@ public class Balance {
     private Currency currency;
 
     @Column(name = "available_balance", nullable = false)
-    private Long balance;
+    private Long availableBalance;
 
     @ManyToOne
+    @JoinColumn(name = "account_id", referencedColumnName = "id")
     @JsonIgnore
     private Account account;
-
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "account_id", referencedColumnName = "id")
-//    private Account account;
-
-
 }

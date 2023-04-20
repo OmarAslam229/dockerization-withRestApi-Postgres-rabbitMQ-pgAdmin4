@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class TransactionDto {
+public class TransactionListDto {
 
     private Long id;
     private Long account_id;
@@ -15,5 +15,4 @@ public class TransactionDto {
     private long amount;
     private Direction direction;
     private String description;
-    private Long balanceAfterTransaction;
 }
