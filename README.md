@@ -29,7 +29,7 @@ how to dockerize this application:
 	rabbitMQ: http://localhost:15672
 		login: guest
 		password: guest
-	one can see all queues, messages, exchanges by visiting provided link and credentails
+	one can see all queues, messages, exchanges by visiting provided link and credentails.
 	
 	
 	
