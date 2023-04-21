@@ -20,17 +20,31 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    public Queue jsonQueue()
+    public Queue accountQueue()
     {
-        return new Queue(RabbitMQConstants.QUEUE);
+        return new Queue(RabbitMQConstants.QUEUE_ACCOUNT);
     }
 
     @Bean
-    public Binding bindingJsonQueue()
+    public Binding bindingAccountQueue()
     {
-        return BindingBuilder.bind(jsonQueue())
+        return BindingBuilder.bind(accountQueue())
                 .to(exchange())
-                .with(RabbitMQConstants.BINDING_KEY);
+                .with(RabbitMQConstants.BINDING_KEY_ACCOUNT);
+    }
+
+    @Bean
+    public Queue transactionQueue()
+    {
+        return new Queue(RabbitMQConstants.QUEUE_TRANSACTION);
+    }
+
+    @Bean
+    public Binding bindingTransactionQueue()
+    {
+        return BindingBuilder.bind(transactionQueue())
+                .to(exchange())
+                .with(RabbitMQConstants.BINDING_KEY_TRANSACTION);
     }
 
     @Bean

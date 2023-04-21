@@ -42,7 +42,7 @@ public class AccountService {
         Account savedAccount = accountRepository.save(account);
         ReturnAccountDto returnAccountDto = accountMapper.toReturnAccountDto(savedAccount);
 
-        producer.sendMessage(returnAccountDto);   //RabbitMQ message producer
+        producer.sendMessageToAccountQueue(returnAccountDto);   //RabbitMQ message producer
 
         return returnAccountDto;
     }

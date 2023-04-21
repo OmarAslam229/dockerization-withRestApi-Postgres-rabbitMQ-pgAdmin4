@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  application:
+    image: 'application:latest'
+    build:
+      context: .
+    container_name: application
+    depends_on:
+      - db
+      - pgadmin
+      - rabbitmq
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/compose-postgres
+      - SPRING_DATASOURCE_USERNAME=compose-postgres
+      - SPRING_DATASOURCE_PASSWORD=compose-postgres
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - SPRING_RABBITMQ_DATASOURCE_URL=rabbitmq
+    ports:
+      - 8081:8081
+
+  db:
+    image: 'postgres:latest'
+    container_name: db
+    environment:
+      - POSTGRES_USER=compose-postgres
+      - POSTGRES_PASSWORD=compose-postgres
+    #  - POSTGRES_DB= tuum
+    ports:
+      - 5432:5432
+
+
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: guest@ymail.com
+      PGADMIN_DEFAULT_PASSWORD: guest
+    ports:
+      - 80:80
+
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3.10.20-management
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    ports:
+      - 5672:5672
+      - 15672:15672

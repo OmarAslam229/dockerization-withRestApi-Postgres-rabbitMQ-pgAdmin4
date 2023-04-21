@@ -115,27 +115,4 @@ class AccountServiceTest {
 
         assertTrue(actualMessage.contains(expectedMessage));
     }
-
-
-
-    @Test
-    @DisplayName("create account by wrong currency type Failure")
-    public void testCreateNewAccountByWrongID_Failure()
-    {
-//        Currency c = Currency.valueOf("PKR");
-//
-//        List<Balance> balanceList = new ArrayList<Balance>(){{
-//            add(Balance.builder().currency(c).availableBalance(1000L).build());
-//            add(Balance.builder().currency(Currency.USD).availableBalance(1500L).build());
-//        }};
-//
-//        CreateAccountDto dto = CreateAccountDto.builder()
-//                .customerId("Omar")
-//                .country("pakistan")
-//                .balances(balanceList)
-//                .build();
-//
-//        String URL  = baseUrl.concat("/create_account");
-//        ReturnAccountDto response =   restTemplate.postForObject(URL,dto, ReturnAccountDto.class);
-    }
 }

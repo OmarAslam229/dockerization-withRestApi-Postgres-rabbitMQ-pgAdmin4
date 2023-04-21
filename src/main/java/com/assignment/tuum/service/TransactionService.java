@@ -9,6 +9,7 @@ import com.assignment.tuum.mapper.TransactionMapper;
 import com.assignment.tuum.model.Balance;
 import com.assignment.tuum.model.Transaction;
 import com.assignment.tuum.model.enums.Direction;
+import com.assignment.tuum.rabbitMQ.producer.RabbitMQProducer;
 import com.assignment.tuum.repository.BalanceRepository;
 import com.assignment.tuum.repository.TransactionRepository;
 import lombok.AllArgsConstructor;
@@ -21,8 +22,6 @@ import java.util.List;
 
 @Service
 @Transactional
-@Slf4j
-@AllArgsConstructor
 public class TransactionService {
 
     @Autowired
@@ -33,6 +32,13 @@ public class TransactionService {
 
     @Autowired
     private TransactionMapper transactionMapper;
+
+    private RabbitMQProducer producer;
+
+    public TransactionService (RabbitMQProducer producer)
+    {
+        this.producer = producer;
+    }
 
     public TransactionDto createTransaction(TransactionCreateDto transactionDto)
     {
@@ -75,9 +81,11 @@ public class TransactionService {
       transaction.setBalanceAfterTransaction(newBalance);
       Transaction savedTransaction = transactionRepository.save(transaction);
 
-     // savedTransaction.getAccount().
+      TransactionDto returnTransactionDto = transactionMapper.toTransactionDto(savedTransaction);
 
-      return transactionMapper.toTransactionDto(savedTransaction);
+      producer.sendMessageToTransactionQueue(returnTransactionDto);   //RabbitMQ message producer
+
+      return returnTransactionDto;
     }
 
     public List<TransactionListDto>  getTransactions(Long id)

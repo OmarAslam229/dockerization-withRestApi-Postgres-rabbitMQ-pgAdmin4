@@ -1,25 +1,25 @@
 spring:
   profile:
-    active: ${PROFILE}
+    active: DEV
   application:
     name: Tuum
 
   datasource:
-    url: ${DATASOURCE_URL}
-    username: ${DATASOURCE_USERNAME}
-    password: ${DATASOURCE_PASSWORD}
-    driverClassName: ${DRIVER_CLASS_NAME}
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/tuum}
+    username: postgres
+    password: post1234
+    driverClassName: org.postgresql.Driver
 
   jpa:
-    spring.jpa.database-platform: ${DATABASE}
+    spring.jpa.database-platform: postgres
     hibernate:
-      ddl-auto: update   #change it accordingly inorder to set tables in db
+      ddl-auto: update   #change it accordingly in-order to set tables in db
     show-sql: true
 
 
     properties:
       hibernate:
-        dialect: ${DIALECT}
+        dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
   mvc:
     format:
@@ -33,20 +33,14 @@ spring:
     enabled: false
     change-log: "classpath:/liquibase/changelog-master.yaml"
 
-  servlet:
-    multipart:
-      max-file-size: ${MAX_FILE_SIZE}
-      max-request-size: ${MAX_REQUEST_SIZE}
-      enabled: true
-
   rabbitmq:
-    host: localhost
+    host: ${SPRING_RABBITMQ_DATASOURCE_URL:localhost}
     port: 5672
     username: guest
     password: guest
 
 server:
-  port: ${SERVER_PORT}
+  port: 8081
 
 debug: false
 
@@ -62,5 +56,5 @@ logging:
     org:
       springframework: INFO
     com:
-      knits:
-        enterprise: DEBUG
+      assugnment:
+        tuum: DEBUG

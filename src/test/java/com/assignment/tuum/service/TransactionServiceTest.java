@@ -15,6 +15,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
@@ -96,6 +97,8 @@ class TransactionServiceTest {
     }
 
     @Test
+    @Sql(statements = "DELETE FROM balance WHERE account_id = 1",executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+    @Sql(statements = "DELETE FROM account WHERE id = 1",executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(statements = "INSERT INTO account(id, country, customer_id) VALUES (1, 'Pakistan', 'Omar');", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(statements = "INSERT INTO balance(id, available_balance, currency, account_id)VALUES (1, 20, 'EUR', 1)", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(statements = "DELETE FROM balance WHERE account_id = 1",executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
@@ -188,11 +191,7 @@ class TransactionServiceTest {
 
         assertAll(
                 () -> assertNotNull(response),
- //              () -> assertEquals(1 , response.get(0).getAccount_id()),
-               () -> assertEquals(3 , response.size())
-//                () -> assertEquals(1000L,response.get(0).getAmount()),
-//                () -> assertEquals("OUT",response.get(1).getDirection()),
-//                () -> assertEquals("test description SEK 3",response.get(2).getDescription())
+                () -> assertEquals(3 , response.size())
         );
     }
 
@@ -210,28 +209,5 @@ class TransactionServiceTest {
         String actualMessage = exception.getMessage();
 
         assertTrue(actualMessage.contains(expectedMessage));
-    }
-
-
-
-    @Test
-    @DisplayName("(Not Final)create account by wrong currency type Failure")
-    public void testCreateNewAccountByWrongCurrency_Failure()
-    {
-//        Currency c = Currency.valueOf("PKR");
-//
-//        List<Balance> balanceList = new ArrayList<Balance>(){{
-//            add(Balance.builder().currency(c).availableBalance(1000L).build());
-//            add(Balance.builder().currency(Currency.USD).availableBalance(1500L).build());
-//        }};
-//
-//        CreateAccountDto dto = CreateAccountDto.builder()
-//                .customerId("Omar")
-//                .country("pakistan")
-//                .balances(balanceList)
-//                .build();
-//
-//        String URL  = baseUrl.concat("/create_account");
-//        ReturnAccountDto response =   restTemplate.postForObject(URL,dto, ReturnAccountDto.class);
     }
 }
